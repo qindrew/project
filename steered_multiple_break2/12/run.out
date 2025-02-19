@@ -1,0 +1,47 @@
+LAMMPS (23 Jun 2022)
+KOKKOS mode is enabled (src/KOKKOS/kokkos.cpp:105)
+  will use up to 1 GPU(s) per node
+  using 1 OpenMP thread(s) per MPI task
+Reading data file ...
+  orthogonal box = (0 0 0) to (18 18 18)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  684 atoms
+  read_data CPU = 0.018 seconds
+Reading potential file ffield.reax.mattsson with DATE: 2010-02-19
+
+CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE
+
+Your simulation uses code contributions which should be cited:
+- pair reaxff command:
+- fix qeq/reaxff command:
+The log file lists these citations in BibTeX format.
+
+CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE
+
+WARNING: Fix qeq/reaxff/kk group is not charge neutral, net charge = 0.0018 (src/REAXFF/fix_qeq_reaxff.cpp:392)
+Neighbor list info ...
+  update every 1 steps, delay 10 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 12
+  ghost atom cutoff = 12
+  binsize = 12, bins = 2 2 2
+  2 neighbor lists, perpetual/occasional/extra = 2 0 0
+  (1) pair reaxff/kk, perpetual
+      attributes: half, newton off, ghost, kokkos_device
+      pair build: half/bin/ghost/kk/device
+      stencil: full/ghost/bin/3d
+      bin: kk/device
+  (2) fix qeq/reaxff/kk, perpetual
+      attributes: full, newton off, kokkos_device
+      pair build: full/bin/kk/device
+      stencil: full/bin/3d
+      bin: kk/device
+Setting up Verlet run ...
+  Unit style    : real
+  Current step  : 0
+  Time step     : 0.2
+WARNING: Fixes cannot yet send exchange data in Kokkos communication, switching to classic exchange/border communication (src/KOKKOS/comm_kokkos.cpp:581)
+Per MPI rank memory allocation (min/avg/max) = 37.59 | 37.59 | 37.59 Mbytes
+   Step          Temp          E_pair         E_mol          TotEng         Press     
+         0   600           -71053.284      0             -69831.748      81481.225    

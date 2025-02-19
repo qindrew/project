@@ -1,0 +1,118 @@
+LAMMPS (23 Jun 2022)
+KOKKOS mode is enabled (src/KOKKOS/kokkos.cpp:105)
+  will use up to 1 GPU(s) per node
+  using 1 OpenMP thread(s) per MPI task
+package kokkos
+package kokkos neigh half newton on
+# REAX potential for CHO system
+# .....
+units		real
+
+atom_style	charge
+atom_modify     map yes
+
+read_data       run.data
+Reading data file ...
+  orthogonal box = (0 0 0) to (18 18 18)
+  1 by 1 by 1 MPI processor grid
+  reading atoms ...
+  684 atoms
+  read_data CPU = 0.022 seconds
+
+pair_style	reaxff/kk lmp_control
+pair_coeff	* * ffield.reax.mattsson C H
+Reading potential file ffield.reax.mattsson with DATE: 2010-02-19
+
+neighbor	2 bin
+
+velocity        all create 600.0 15345 mom no rot no dist gaussian
+
+fix		1 all nve
+fix             2 all qeq/reaxff/kk 10 0.0 10.0 1e-6 reaxff
+fix		3 all langevin 600.0 600.0 100.0 48279
+
+timestep	0.2
+dump 5 all custom 1000 asdf.coords id type xu yu zu
+dump_modify 5 sort id
+run 10000000
+
+CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE
+
+Your simulation uses code contributions which should be cited:
+
+- pair reaxff command:
+
+@Article{Aktulga12,
+ author = {H. M. Aktulga, J. C. Fogarty, S. A. Pandit, A. Y. Grama},
+ title = {Parallel reactive molecular dynamics: Numerical methods and algorithmic techniques},
+ journal = {Parallel Computing},
+ year =    2012,
+ volume =  38,
+ pages =   {245--259}
+}
+
+- fix qeq/reaxff command:
+
+@Article{Aktulga12,
+ author = {H. M. Aktulga, J. C. Fogarty, S. A. Pandit, A. Y. Grama},
+ title = {Parallel reactive molecular dynamics: Numerical methods and algorithmic techniques},
+ journal = {Parallel Computing},
+ year =    2012,
+ volume =  38,
+ pages =   {245--259}
+}
+
+CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE-CITE
+
+WARNING: Fix qeq/reaxff/kk group is not charge neutral, net charge = 0.0018 (src/REAXFF/fix_qeq_reaxff.cpp:392)
+Neighbor list info ...
+  update every 1 steps, delay 10 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 12
+  ghost atom cutoff = 12
+  binsize = 12, bins = 2 2 2
+  2 neighbor lists, perpetual/occasional/extra = 2 0 0
+  (1) pair reaxff/kk, perpetual
+      attributes: half, newton off, ghost, kokkos_device
+      pair build: half/bin/ghost/kk/device
+      stencil: full/ghost/bin/3d
+      bin: kk/device
+  (2) fix qeq/reaxff/kk, perpetual
+      attributes: full, newton off, kokkos_device
+      pair build: full/bin/kk/device
+      stencil: full/bin/3d
+      bin: kk/device
+WARNING: Fixes cannot yet send exchange data in Kokkos communication, switching to classic exchange/border communication (src/KOKKOS/comm_kokkos.cpp:581)
+Per MPI rank memory allocation (min/avg/max) = 37.59 | 37.59 | 37.59 Mbytes
+   Step          Temp          E_pair         E_mol          TotEng         Press     
+         0   600           -71053.284      0             -69831.748      81481.225    
+  10000000   615.58404     -71166.432      0             -69913.169     -2084.7212    
+Loop time of 59311.5 on 1 procs for 10000000 steps with 684 atoms
+
+Performance: 2.913 ns/day, 8.238 hours/ns, 168.601 timesteps/s
+70.9% CPU use with 1 MPI tasks x 1 OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 37260      | 37260      | 37260      |   0.0 | 62.82
+Neigh   | 708.4      | 708.4      | 708.4      |   0.0 |  1.19
+Comm    | 1203.5     | 1203.5     | 1203.5     |   0.0 |  2.03
+Output  | 13.585     | 13.585     | 13.585     |   0.0 |  0.02
+Modify  | 19779      | 19779      | 19779      |   0.0 | 33.35
+Other   |            | 347.5      |            |       |  0.59
+
+Nlocal:            684 ave         684 max         684 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Nghost:           7980 ave        7980 max        7980 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+Neighs:         461315 ave      461315 max      461315 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+FullNghs:       579364 ave      579364 max      579364 min
+Histogram: 1 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 579364
+Ave neighs/atom = 847.02339
+Neighbor list builds = 78379
+Dangerous builds = 0
+Total wall time: 16:28:35
